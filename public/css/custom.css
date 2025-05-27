@@ -1,0 +1,89 @@
+.input-group .form-control {
+    padding-right: 2.5rem; /* espaço pro ícone da lupa */
+}
+
+.toast-top-right {
+    top: -80px !important; /* deixa o toast logo abaixo do header fixo */
+    right: 12px !important;
+    position: fixed !important;
+    z-index: 9999;
+}
+
+.pagination {
+    margin: 0;
+}
+
+.text-muted {
+    font-size: 0.875rem;
+}
+
+/* Hover azul claro */
+table.table .hover-highlight:hover {
+    background-color: #f0f8ff !important;
+}
+
+/* Animação da seta de expansão */
+.transition-rotate {
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.rotate-90 {
+    transform: rotate(90deg);
+}
+
+/* Recuo visual nos filhos */
+tr.bg-light td.pl-4 {
+    border-left: 3px solid #ccc;
+}
+.table.dark-header > thead > tr > th {
+    background-color: rgb(13, 110, 253) !important; /* fundo escuro */
+    color: #ffffff !important;           /* texto branco */
+    border-color: #454d55 !important;    /* borda suave */
+}
+
+.form-label-custom {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600;
+    font-size: 0.7rem;
+    color: #495057;
+    letter-spacing: 0.5px;
+    padding: 2px;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* Ajusta altura para bater com .form-control padrão */
+.select2-container--default .select2-selection--single {
+    height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+}
+
+/* Remove altura fixa do internal span */
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 24px;
+    padding-left: 0;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 100%;
+    right: 10px;
+}
+
+/* Para manter 100% da largura como outros inputs */
+.select2-container {
+    width: 100% !important;
+}
+
+/* Estilo de foco semelhante ao form-control */
+.select2-container--default.select2-container--focus .select2-selection--single {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
