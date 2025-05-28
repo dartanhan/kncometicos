@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 use App\Models\Produto;
 use App\Models\Categoria;
@@ -18,6 +19,8 @@ class CadastroProduto extends Component
     public $subcategorias = [];
     public bool $tem_variacao = false;
     public $descricao = "teste desc";
+    public $imagemArquivo;
+    public $imagemPreview;
     public $produto = [
         'nome' => '',
         'descricao' => '',
@@ -32,6 +35,16 @@ class CadastroProduto extends Component
     public function temVariacao($value)
     {
        $this->tem_variacao = (bool) $value;
+    }
+
+    public function uploadTemp(Request $request)
+    {
+        if ($request->hasFile('file')) {
+            $path = $request->file('file')->store('produtos', 'public');
+            return response()->json(['path' => $path]);
+        }
+
+        return response()->json(['error' => 'Nenhum arquivo enviado'], 400);
     }
 
     protected function rules()

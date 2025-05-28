@@ -63,6 +63,7 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css">
 
+    <link href="https://unpkg.com/filepond/dist/filepond.min.css" rel="stylesheet" />
 
     @livewireStyles
 
@@ -363,6 +364,8 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.js"></script>
+
+<script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
 
 <script>
     const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';

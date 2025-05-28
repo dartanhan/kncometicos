@@ -28,6 +28,16 @@ class ProdutoController extends Controller
         return view('pages.cadastro-produto');
     }
 
+    public function uploadTemp(Request $request)
+    {
+        if ($request->hasFile('file')) {
+            $path = $request->file('file')->store('produtos', 'public');
+            return response()->json(['path' => $path]);
+        }
+
+        return response()->json(['error' => 'Nenhum arquivo enviado'], 400);
+    }
+
     public function toggle($produtoId)
     {
         if (in_array($produtoId, $this->abertos)) {

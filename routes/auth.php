@@ -65,4 +65,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/produtos/cadastrar', [ProdutoController::class,'cadastrar'])->name('produtos.cadastrar');
     Route::resource('produtos', ProdutoController::class);
     //Route::get('/produtos/{produto}/editar', \App\Livewire\ProdutosForm::class)->name('produtos.edit');
+
+    Route::post('/produtos/upload-temp', function (Request $request) {
+        if ($request->hasFile('file')) {
+            $path = $request->file('file')->store('produtos', 'public');
+            return response()->json(['path' => $path]);
+        }
+
+        return response()->json(['error' => 'Nenhum arquivo enviado'], 400);
+    });
 });
