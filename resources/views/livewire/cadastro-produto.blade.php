@@ -1,5 +1,4 @@
-<div class="container-fluid px-4" xmlns:wire="http://www.w3.org/1999/xhtml"
-     xmlns:x-transition="http://www.w3.org/1999/xhtml">
+<div class="container-fluid px-4" xmlns:wire="http://www.w3.org/1999/xhtml">
 
     <div class="row mt-2 p-6 bg-white rounded-lg shadow ">
         <div class="card">
@@ -28,132 +27,155 @@
                     <form wire:submit.prevent="salvar">
                         <div class="row">
                             <!-- Dados Básicos -->
-                            <div class="col-md-3">
-                                <div class="form-group mb-2 col-md-4">
-                                    <label class="form-label-custom">Código do Produto(Sku)</label>
-                                    <input type="text" wire:model="produto.codigo_barras" class="form-control">
-                                    @error('produto.codigo_barras') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-
-                                <div class="form-group mb-2 col-md-4">
-                                    <label class="form-label-custom">Código de Barras</label>
-                                    <input type="text" wire:model="produto.codigo_barras" class="form-control">
-                                    @error('produto.codigo_barras') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-
-                                <div class="form-group mb-2 col-md-4">
-                                    <label class="form-label-custom">Categoria</label>
-                                    <select wire:model="categoriaSelecionada" class="form-control select2"  multiple="multiple">
-                                        <option value="">Selecione uma categoria</option>
-                                        @foreach($categorias as $categoria)
-                                            <option value="{{ $categoria->id }}">{{ $categoria->nome }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-
-
+                            <div class="col-md-2">
+                                <label class="form-label-custom">Código do Produto(Sku)</label>
+                                <input type="text" wire:model="produto.sku" class="form-control">
+                                @error('produto.sku') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="col-md-2">
-                                <div class="form-group mb-2">
-                                    <label class="form-label-custom">Nome do Produto</label>
-                                    <input type="text" wire:model="produto.nome" class="form-control">
-                                    @error('produto.nome') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
+                                <label class="form-label-custom">Código de Barras</label>
+                                <input type="text" wire:model="produto.codigo_barras" class="form-control">
+                                @error('produto.codigo_barras') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
 
-                                <div class="form-group mb-2">
-                                    <label class="form-label-custom">Subcategoria</label>
-                                    <select wire:model="produto.subcategoria_id" class="form-control select2" multiple="multiple">
-                                        <option value="">Selecione uma subcategoria</option>
-                                        @foreach($subcategorias as $subcategoria)
-                                            <option value="{{ $subcategoria->id }}">{{ $subcategoria->nome }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('produto.subcategoria_id') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
+                            <div class="col-md-2">
+                                <label class="form-label-custom">Nome do Produto</label>
+                                <input type="text" wire:model="produto.nome" class="form-control">
+                                @error('produto.nome') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                            <!-- Variações -->
+                            <div class="col-md-1" wire:ignore>
+                                <label class="form-label-custom">Formato</label>
+                                <select onchange="@this.call('temVariacao', this.value)" class="form-control">
+                                    <option value="0">Sem Variação</option>
+                                    <option value="1">Com Variação</option>
+                                </select>
+                            </div>
 
-                                <div class="form-group mb-2">
-                                    <label class="form-label-custom">Preço</label>
-                                    <input type="number" step="0.01" wire:model="produto.preco" class="form-control">
-                                    @error('produto.preco') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
+                            <div class="col-md-1">
+                                <label class="form-label-custom">Quantidade</label>
+                                <input type="number" wire:model="produto.quantidade" class="form-control">
+                                @error('produto.Quantidade') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
 
-                                <div class="form-group">
+                            <div class="col-md-1">
+                                <label class="form-label-custom">Preço</label>
+                                <input type="number" step="0.01" wire:model="produto.preco" class="form-control">
+                                @error('produto.preco') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div class="col-md-1">
                                     <label class="form-label-custom">Estoque</label>
                                     <input type="number" wire:model="produto.estoque" class="form-control">
                                     @error('produto.estoque') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
                             </div>
 
-                            <div class="form-group mb-2 col-md-4">
-                                <label class="form-label-custom">Descrição</label>
-                                <textarea wire:model="produto.descricao" class="form-control" rows="3"></textarea>
-                                @error('produto.descricao') <span class="text-danger">{{ $message }}</span> @enderror
+                            <div class="col-md-2" wire:ignore>
+                                <label class="form-label-custom">Categoria</label>
+                                <select wire:model="categoriaSelecionada" class="form-control select2" multiple="multiple">
+                                    <option value="">Selecione uma categoria</option>
+                                    @foreach($categorias as $categoria)
+                                        <option value="{{ $categoria->id }}">{{ $categoria->nome }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                        </div>
 
-                        <!-- Variações -->
-                        <div class="form-group">
-                            <div class="form-check">
-                                <input type="checkbox" wire:model="tem_variacao" id="tem_variacao" class="form-check-input">
-                                <label for="tem_variacao" class="form-check-label">Este produto tem variações?</label>
+                            <div class="col-md-2" wire:ignore>
+                                <label class="form-label-custom">Subcategoria</label>
+                                <select wire:model="produto.subcategoria_id" class="form-control form-select select2" multiple="multiple">
+                                    <option value="">Selecione uma subcategoria</option>
+                                    @foreach($subcategorias as $subcategoria)
+                                        <option value="{{ $subcategoria->id }}">{{ $subcategoria->nome }}</option>
+                                    @endforeach
+                                </select>
+                                @error('produto.subcategoria_id') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
-                        </div>
 
-
-                            <div
-                                x-data="{ mostrar: @entangle('produto.tem_variacao').defer }"
-                                x-show="mostrar"
-                                x-transition:enter="transition ease-out duration-300"
-                                x-transition:enter-start="opacity-0 transform scale-95"
-                                x-transition:enter-end="opacity-100 transform scale-100"
-                                x-transition:leave="transition ease-in duration-200"
-                                x-transition:leave-start="opacity-100 transform scale-100"
-                                x-transition:leave-end="opacity-0 transform scale-95"
-                                class="card mt-3 border-primary"
-                            >
-                            <div class="card mb-3">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h5>Variações do Produto</h5>
-                                    <button type="button" wire:click="adicionarVariacao" class="btn btn-sm btn-primary">
-                                        <i class="fas fa-plus"></i> Adicionar Variação
-                                    </button>
-                                </div>
-                                <div class="card-body">
-                                    @foreach($variacoes as $index => $variacao)
-                                        <div class="row mb-3 border-bottom pb-3">
-                                            <div class="col-md-4">
-                                                <label class="form-label-custom">Nome</label>
-                                                <input type="text" wire:model="variacoes.{{ $index }}.nome" class="form-control">
-                                                @error('variacoes.'.$index.'.nome') <span class="text-danger">{{ $message }}</span> @enderror
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label class="form-label-custom">SKU</label>
-                                                <input type="text" wire:model="variacoes.{{ $index }}.sku" class="form-control">
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label class="form-label-custom">Preço</label>
-                                                <input type="number" step="0.01" wire:model="variacoes.{{ $index }}.preco" class="form-control">
-                                                @error('variacoes.'.$index.'.preco') <span class="text-danger">{{ $message }}</span> @enderror
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label class="form-label-custom">Estoque</label>
-                                                <input type="number" wire:model="variacoes.{{ $index }}.estoque" class="form-control">
-                                                @error('variacoes.'.$index.'.estoque') <span class="text-danger">{{ $message }}</span> @enderror
-                                            </div>
-                                            <div class="col-md-2 d-flex align-items-end">
-                                                <button type="button" wire:click="removerVariacao({{ $index }})" class="btn btn-danger">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
+                            <!-- Tabs -->
+                            <div class="form-group mt-4">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Características</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Imagens</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Fornecedor</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="tributacao-tab" data-bs-toggle="tab" data-bs-target="#tributacao-tab-pane" type="button" role="tab" aria-controls="tributacao-tab-pane" aria-selected="false">Tributação</button>
+                                    </li>
+                                    @if($tem_variacao)
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="variacao-tab" data-bs-toggle="tab" data-bs-target="#variacao-tab-pane" type="button" role="tab" aria-controls="variacao-tab-pane" aria-selected="false">Variação</button>
+                                        </li>
+                                    @endif
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                                        <div class="card mb-3 mt-2 p-2">
+                                            <div class="row mt-3 mb-2 col-md-4">
+                                                <div class="col-md-12" >
+                                                    <label class="form-label-custom">Descriçãod</label>
+                                                    <textarea wire:model="produto.descricao" class="form-control" rows="3">tete descriçãi uai</textarea>
+                                                    <trix-editor input="descricao" class="form-control"></trix-editor>
+                                                    @error('produto.descricao') <span class="text-danger">{{ $message }}</span> @enderror
+                                                </div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    </div>
+                                    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">.2..</div>
+                                    <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">..3.</div>
+                                    <div class="tab-pane fade" id="tributacao-tab-pane" role="tabpanel" aria-labelledby="tributacao-tab" tabindex="0"></div>
+                                    @if($tem_variacao)
+                                        <div class="tab-pane fade" id="variacao-tab-pane" role="tabpanel" aria-labelledby="variacao-tab" tabindex="0">
+                                            <div class="card mb-3 mt-2">
+                                                <div class="card-header d-flex justify-content-between">
+                                                    <h5>Variações do Produto</h5>
+                                                    <button type="button" wire:click="adicionarVariacao" class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-plus"></i> Adicionar Variação
+                                                    </button>
+                                                </div>
+
+                                                <div class="card-body">
+                                                    @foreach($variacoes as $index => $variacao)
+                                                        <div class="row mb-3 border-bottom pb-3 mt-2">
+                                                            <div class="col-md-4">
+                                                                <label class="form-label-custom">Nome</label>
+                                                                <input type="text" wire:model="variacoes.{{ $index }}.nome" class="form-control">
+                                                                @error('variacoes.'.$index.'.nome') <span class="text-danger">{{ $message }}</span> @enderror
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label class="form-label-custom">SKU</label>
+                                                                <input type="text" wire:model="variacoes.{{ $index }}.sku" class="form-control">
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label class="form-label-custom">Preço</label>
+                                                                <input type="number" step="0.01" wire:model="variacoes.{{ $index }}.preco" class="form-control">
+                                                                @error('variacoes.'.$index.'.preco') <span class="text-danger">{{ $message }}</span> @enderror
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label class="form-label-custom">Estoque</label>
+                                                                <input type="number" wire:model="variacoes.{{ $index }}.estoque" class="form-control">
+                                                                @error('variacoes.'.$index.'.estoque') <span class="text-danger">{{ $message }}</span> @enderror
+                                                            </div>
+                                                            <div class="col-md-2 d-flex align-items-end">
+                                                                <button type="button" wire:click="removerVariacao({{ $index }})" class="btn btn-danger">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
-
-                            </div>
-                        <div class="form-group">
+                        </div>
+                        <div class="form-group mt-2 text-end">
                             <button type="submit" class="btn btn-primary">Salvar Produto</button>
                         </div>
                     </form>

@@ -58,7 +58,7 @@ tr.bg-light td.pl-4 {
 
 /* Ajusta altura para bater com .form-control padrão */
 .select2-container--default .select2-selection--single {
-    height: 38px;
+    height: 40px;
     padding: 6px 12px;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;

@@ -17,6 +17,7 @@ class CadastroProduto extends Component
     public $categoriaSelecionada = null;
     public $subcategorias = [];
     public bool $tem_variacao = false;
+    public $descricao = "teste desc";
     public $produto = [
         'nome' => '',
         'descricao' => '',
@@ -24,20 +25,38 @@ class CadastroProduto extends Component
         'sku' => '',
         'preco' => 0,
         'estoque' => 0,
-        'subcategoria_id' => null
+        'subcategoria_id' => null,
+        'quantidade' => 0
     ];
 
-    protected $rules = [
-        'produto.nome' => 'required|min:3',
-        'produto.descricao' => 'required',
-        'produto.codigo_barras' => 'required|unique:tbl_loja_produtos,codigo_barras',
-        'produto.preco' => 'required|numeric|min:0',
-        'produto.estoque' => 'required|integer|min:0',
-        'produto.subcategoria_id' => 'required|exists:subcategorias,id',
-        'variacoes.*.nome' => 'required_if:produto.tem_variacao,true',
-        'variacoes.*.preco' => 'required_if:produto.tem_variacao,true|numeric|min:0',
-        'variacoes.*.estoque' => 'required_if:produto.tem_variacao,true|integer|min:0',
-    ];
+    public function temVariacao($value)
+    {
+       $this->tem_variacao = (bool) $value;
+    }
+
+    protected function rules()
+    {
+        $rules = [
+            'produto.nome' => 'required|min:3',
+            'produto.descricao' => 'required',
+            'produto.sku' => 'required|unique:tbl_loja_produtos,sku|numeric',
+            'produto.codigo_barras' => 'required|unique:tbl_loja_produtos,codigo_barras',
+            'produto.preco' => 'required|numeric|min:0',
+            'produto.quantidade' => 'required|max:5|integer|min:0',
+            'produto.estoque' => 'required|integer|min:0',
+            'produto.subcategoria_id' => 'required|exists:subcategorias,id',
+        ];
+
+        if ($this->tem_variacao) {
+            $rules['variacoes.*.nome'] = 'required';
+            $rules['variacoes.*.preco'] = 'required|numeric|min:0';
+            $rules['variacoes.*.estoque'] = 'required|integer|min:0';
+        }
+
+        return $rules;
+    }
+
+
 
     public function updatedCategoriaSelecionada($value)
     {
@@ -62,7 +81,7 @@ class CadastroProduto extends Component
 
     public function salvar()
     {
-        $this->validate();
+        $this->validate($this->rules());
 
         $this->produto['tem_variacao'] = $this->tem_variacao;
 
