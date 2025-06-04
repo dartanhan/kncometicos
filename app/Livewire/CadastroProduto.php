@@ -82,7 +82,8 @@ class CadastroProduto extends Component
             'nome' => '',
             'sku' => '',
             'preco' => 0,
-            'estoque' => 0
+            'estoque' => 0,
+            'quantidade' =>0
         ];
     }
 

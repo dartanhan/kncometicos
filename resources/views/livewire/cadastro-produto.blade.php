@@ -136,7 +136,7 @@
                                     </div>
                                     <div class="tab-pane fade mt-2" id="imagem-tab-pane" role="tabpanel" aria-labelledby="imagem-tab" tabindex="0">
                                         <div class="form-group" wire:ignore>
-                                            <input type="file" id="uploadImagem" multiple />
+                                            <input type="file" name="file" id="uploadImagem" multiple />
                                         </div>
 
                                         @if ($imagemPreview)
@@ -216,6 +216,8 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
+            FilePond.registerPlugin(FilePondPluginImagePreview);
+
             const inputElement = document.querySelector('#uploadImagem');
             const pond = FilePond.create(inputElement);
 
@@ -224,8 +226,9 @@
                 allowImagePreview: true,
                 server: {
                     process: {
-                        url: '/produtos/upload-temp',
+                        url: '{{ route("upload.temp") }}',
                         method: 'POST',
+                        withCredentials: false,
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                         },
@@ -239,9 +242,6 @@
                             img.src = '/storage/' + data.path;
                             img.classList.add('img-fluid');
                             document.getElementById('preview-area').appendChild(img);
-
-                            // Você também pode salvar isso no Livewire se quiser
-                       // @this.set('produto.imagem', data.path);
                         }
                     },
                     revert: null

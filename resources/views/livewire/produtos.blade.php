@@ -51,6 +51,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     @foreach ($produtos as $produto)
                                         <tr wire:key="produto-{{ $produto->id }}"
                                             class="{{ $expandedProdutoId === $produto->id ? 'table-primary' : 'table-light' }}">
@@ -123,6 +124,7 @@
                                                                 <th>Código </th>
                                                                 <th>Preço</th>
                                                                 <th>Estoque</th>
+                                                                <th>Quantidade</th>
                                                                 <th style="width: 100px;">Ações</th>
                                                             </tr>
                                                         </thead>
@@ -155,6 +157,13 @@
                                                                         <input wire:model="editData.estoque" type="number" class="form-control">
                                                                     @else
                                                                         {{ $variacao->estoque }}
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if($editingId === 'filho-'.$variacao->id)
+                                                                        <input wire:model="editData.quantidade" type="number" class="form-control">
+                                                                    @else
+                                                                        {{ $variacao->quantidade }}
                                                                     @endif
                                                                 </td>
                                                                 <td>

@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
@@ -66,12 +67,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('produtos', ProdutoController::class);
     //Route::get('/produtos/{produto}/editar', \App\Livewire\ProdutosForm::class)->name('produtos.edit');
 
-    Route::post('/produtos/upload-temp', function (Request $request) {
-        if ($request->hasFile('file')) {
-            $path = $request->file('file')->store('produtos', 'public');
-            return response()->json(['path' => $path]);
-        }
-
-        return response()->json(['error' => 'Nenhum arquivo enviado'], 400);
-    });
+    Route::post('/produtos/upload-temp', [ProdutoController::class,'uploadTemp'])->name('upload.temp');
 });
